@@ -1,0 +1,23 @@
+# The Ambered Jack — Cloudflare Pages headers.
+# Ported from netlify.toml during the Netlify -> Cloudflare migration. Cloudflare Pages
+# reads this _headers file natively (same syntax as Netlify). netlify.toml is left in the
+# repo but is inert on Cloudflare. No CSP on this site (parity with the prior config), so
+# the Web3Forms contact-form POST is not restricted.
+/*
+  X-Frame-Options: SAMEORIGIN
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: geolocation=(), microphone=(), camera=()
+
+# Do NOT immutable-cache css/js/html: filenames don't change between deploys, so a long
+# immutable cache would keep the OLD file after an update. Always revalidate (cheap 304).
+/css/*
+  Cache-Control: public, max-age=0, must-revalidate
+/js/*
+  Cache-Control: public, max-age=0, must-revalidate
+/*.html
+  Cache-Control: public, max-age=0, must-revalidate
+
+# Images rarely change; a day of caching is fine.
+/assets/*
+  Cache-Control: public, max-age=86400

@@ -1,0 +1,39 @@
+# .gitignore — The Ambered Jack site repo.
+# Anything matched here is NEVER tracked, pushed to GitHub, or deployed.
+# NOTE: each rule must be alone on its line — git has no inline comments.
+
+# --- PRIVATE material (must never leave the machine) ---
+# client/agency source assets, logos, photos:
+/assets/
+# internal retainer / strategy docs:
+/retainer/
+
+# --- BACKUPS (frozen rollback zips — never delete, never commit) ---
+/website-deploys/
+
+# --- Regenerable junk ---
+node_modules/
+.impeccable/
+playwright-report/
+test-results/
+.playwright/
+
+# --- Tooling that physically lives INSIDE the served site/ folder ---
+# Kept locally for dev/testing, but excluded so Cloudflare's site/ output
+# serves ONLY website files (no tooling reachable by URL).
+/site/tests/
+/site/tools/
+/site/netlify.toml
+/site/package.json
+/site/package-lock.json
+/site/playwright.config.js
+/site/.gitignore
+/site/README-DEPLOY.md
+/site/CLAUDE-CODE-BRIEF.md
+/site/TESTING.md
+
+# --- OS / editor clutter ---
+.DS_Store
+Thumbs.db
+desktop.ini
+*.log
