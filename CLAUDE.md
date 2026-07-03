@@ -65,3 +65,21 @@ Build quality is strong: per-page routes, Restaurant JSON-LD schema, OG/Twitter 
 
 ## Benchmark / competitor
 - **Rigo's Pizzeria (Cary, NC)** — rigospizzeriacary.com. David admires it as "clean and professional." Key finding: it's a **SpotHopper** template (restaurant SaaS) + done-for-you photography, video, social & email service. Its polish = pro photography + video hero + fresh dynamic content + third-party ordering (SkyTab/Slice/ChowNow), NOT superior hand-coding. The Ambered Jack's custom site can match/beat it visually; the real gap is photography, content freshness, and ordering/marketing integrations — not code.
+
+---
+
+## Deployment — git → GitHub → Cloudflare Pages (current, 2026-07-03)
+
+> This section supersedes the older Netlify / "Website Mockup/" references above.
+> The live site now lives in **`site/`** and deploys automatically from git.
+
+- **GitHub repo (private):** https://github.com/ridgelinedave/amberedjacksite
+- **Host:** Cloudflare Pages project `amberedjacksite`, git-connected. **Production branch `main` — every push to `main` auto-publishes the live site** in ~1 min (no more manual zip upload).
+- **Cloudflare build settings:** Build command = **(blank)**; **Build output directory = `site`**. Pure static, no build step.
+- **Live:** https://www.amberedjack.com (canonical host = **www**; apex 301→www via the Cloudflare zone Redirect Rule). URLs are clean/extensionless.
+- **The served folder is website-only (hard rule).** Cloudflare serves the entire `site/` folder as-is, so nothing but website files may live in it. The Playwright test harness + internal docs physically inside `site/` (`tests/`, `tools/`, `package.json`, `netlify.toml`, `README-DEPLOY.md`, `CLAUDE-CODE-BRIEF.md`, `TESTING.md`) are **gitignored in place** — they stay local for testing but are excluded from the repo/deploy. So the **test suite is local-only, not on GitHub** (by choice; it's in the backup zips).
+- **`.gitignore`** also excludes the private `assets/` + `retainer/`, the `website-deploys/` backup zips, and `node_modules/`.
+- **Headers:** `site/_headers` (Cloudflare-native security headers; **no CSP** on this site, so the Web3Forms POST isn't restricted). **Redirects:** apex→www is a **zone Redirect Rule**, NOT `_redirects` (Cloudflare Pages `_redirects` matches path only, not hostname).
+- **Forms:** Web3Forms. The `access_key` in `site/contact.html` + `site/js/script.js` is a **public routing token, not a secret** — do not scrub it.
+- **Deploy zips in `website-deploys/` are frozen backups — never delete** (rollback is now Cloudflare → Deployments → "Rollback to this deployment").
+- **To make a change:** edit files in `site/`, commit, push to `main` → live in ~1 min. Risky change → do it on a branch (Cloudflare gives a preview URL) → merge to `main` once confirmed.
