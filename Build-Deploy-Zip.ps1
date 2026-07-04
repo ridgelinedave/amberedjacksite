@@ -1,6 +1,7 @@
 # ============================================================
 #  Build-Deploy-Zip.ps1
-#  Makes a dated, Netlify-ready zip of the "Website Mockup" folder.
+#  Makes a dated BACKUP zip of the "site" folder (rollback snapshot in website-deploys/).
+#  NOT the deploy path — deploy is automatic via git push to main (Cloudflare Pages).
 #  Don't run this directly - just double-click "MAKE WEBSITE ZIP.cmd"
 #  (it handles Windows permissions for you).
 # ============================================================
@@ -62,7 +63,7 @@ if ($hasIndex -eq 1) {
   Write-Host "   $dest"
   Write-Host "   ($count files, index.html at root - good to deploy)"
   Write-Host ""
-  Write-Host "NEXT: Netlify -> your site -> Deploys tab -> drag this zip onto the drop area."
+  Write-Host "This is a BACKUP snapshot only. Deploy is automatic via git push to main (Cloudflare Pages)."
   Start-Process explorer.exe "/select,`"$dest`""   # opens the folder with the new zip highlighted
 } else {
   Write-Host "WARNING: index.html is not at the zip root - DO NOT deploy this one." -ForegroundColor Red
